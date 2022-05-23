@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  web:
+    platform: linux/amd64
+    build: .
+    depends_on:
+      - db
+    network_mode: "host"
+  db:
+    platform: linux/amd64
+    image: postgres:14.2-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432

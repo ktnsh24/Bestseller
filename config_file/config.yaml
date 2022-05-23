@@ -1,0 +1,42 @@
+input:
+  PGUSER: postgres
+  PGPASSWORD: password
+  PGHOST: host.docker.internal
+  DATABASE: postgres
+  PORT: 5432
+
+  data:
+    review_data:
+      path: sources/reviews*
+      mode: append
+      database_schema: public
+      table_name: reviews
+      create_table_query_path: tables/reviews.sql
+      columns_to_transform_date:
+        - unixreviewtime
+    meta_data:
+      path: sources/meta*
+      mode: append
+      database_schema: public
+      table_name: metadata
+      create_table_query_path: tables/metadata.sql
+      columns_to_json:
+        - related
+        - salesrank
+      columns_to_flat:
+        - categories
+    dimensional_model:
+      - tables/dimensional_reviewer.sql
+      - tables/dimensional_products.sql
+      - tables/dimensional_date.sql
+      - tables/fact_table.sql
+
+  bucket_name: 'tst-bestseller'
+  bucket_source_folder: 'sources'
+  bucket_archive_folder: 'archive_data'
+
+
+
+
+
+
